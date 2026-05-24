@@ -77,7 +77,7 @@ Edit `config.env`:
 1. Clone this repo on the Pi, for example:
 
    ```bash
-   git clone https://github.com/YOUR_USER/MonitorPI.git /home/pi/MonitorPI
+   git clone https://github.com/sebastientaggart/MonitorPI.git /home/pi/MonitorPI
    cd /home/pi/MonitorPI
    ```
 

@@ -4,7 +4,7 @@ MonitorPI is a **local kiosk** on a home LAN. It does not run a network server, 
 
 ## Reporting
 
-If you find a security issue that could affect others using this project (for example, unsafe defaults in the install docs or scripts), please report it via [GitHub Security Advisories](https://github.com/OWNER/MonitorPI/security/advisories) or open a private issue if advisories are not enabled.
+If you find a security issue that could affect others using this project (for example, unsafe defaults in the install docs or scripts), please report it via [GitHub Security Advisories](https://github.com/sebastientaggart/MonitorPI/security/advisories) or open a private issue if advisories are not enabled.
 
 ## Local configuration
 
