@@ -6,21 +6,9 @@ This kiosk was built for a **7" Raspberry Pi touch display** showing a **custom 
 
 ## Photos
 
-*Photos coming — add `finished.jpg`, `installed-back.jpg`, and `wiring.jpg` under [docs/images](docs/images/).*
-
-| | |
-|---|---|
-| Finished (front) | `docs/images/finished.jpg` |
-| Installed (back) | `docs/images/installed-back.jpg` |
-| Wiring | `docs/images/wiring.jpg` |
-
-When the images are in place, they will appear here:
-
-<!--
 ![Finished kiosk](docs/images/finished.jpg)
 ![Back of unit](docs/images/installed-back.jpg)
 ![Wiring](docs/images/wiring.jpg)
--->
 
 ## How it works
 
