@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The Taggart House LAN Monitor</title>
+  <meta name="application-name" content="netdata">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://cloud.githubusercontent.com/assets/2662304/22945737/e98cd0c6-f2fd-11e6-96f1-5501934b0955.png" />
+  <meta property="og:url" content="http://firewall.lan:19999/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="netdata"/>
+  <meta property="og:title" content="netdata - real-time performance monitoring, done right!"/>
+  <meta property="og:description" content="Stunning real-time dashboards, blazingly fast and extremely interactive. Zero configuration.">
+
+  <style type="text/css">
+    .tg { border-collapse: collapse; border-spacing: 0; margin: auto; }
+    .tg td, .tg th { border: none; padding: 0; word-break: normal; text-align: center; }
+    body { margin: 0; font-family: sans-serif; background-color: #1e1e1e; color: #ccc; }
+  </style>
+
+  <!--
+    OPNsense Netdata plugin ships a minimal web root (no dashboard.js). Load the
+    legacy chart library from tower.lan; each chart still uses data-host for its agent.
+  -->
+  <script>
+    var netdataTheme = 'slate';
+    var netdataServer = 'http://tower.lan:19999/';
+    var netdataNoBootstrap = true;
+  </script>
+  <script type="text/javascript" src="http://tower.lan:19999/dashboard.js"></script>
+  <script type="text/javascript" src="http://tower.lan:19999/refresh-badges.js"></script>
+  <script>
+    NETDATA.options.current.destroy_on_hide = true;
+    NETDATA.options.current.eliminate_zero_dimensions = true;
+    NETDATA.options.current.concurrent_refreshes = false;
+    NETDATA.options.current.parallel_refresher = true;
+    NETDATA.options.current.stop_updates_when_focus_is_lost = false;
+
+    setTimeout(() => location.reload(), 5 * 60 * 1000);
+  </script>
+</head>
+<body>
+
+<table class="tg">
+  <tr><th colspan="4" style="padding:10px;">Taggart House LAN Monitor</th></tr>
+
+  <!-- Firewall -->
+  <tr>
+    <td>
+      <div data-netdata="system.cpu" data-host="http://firewall.lan:19999"
+           data-title="Firewall CPU" data-chart-library="gauge"
+           data-width="250px" data-after="-300"
+           data-gauge-max-value="100" data-colors="#0384fc"></div>
+    </td>
+    <td>
+      <div data-netdata="mem.available" data-host="http://firewall.lan:19999"
+           data-title="Available RAM" data-chart-library="easypiechart"
+           data-units="MB" data-width="150px"
+           data-easypiechart-max-value="16000"
+           data-after="-480" data-points="480"
+           data-colors="#66AA00"></div>
+    </td>
+    <td>
+      <div data-netdata="system.net" data-dimensions="received"
+           data-host="http://firewall.lan:19999"
+           data-title="Net RX" data-chart-library="easypiechart"
+           data-width="80px" data-after="-300"></div>
+      <br />
+      <div data-netdata="system.net" data-dimensions="sent"
+           data-host="http://firewall.lan:19999"
+           data-title="Net TX" data-chart-library="easypiechart"
+           data-width="80px" data-after="-300"></div>
+    </td>
+    <td rowspan="2">
+      <div data-netdata="system.load" data-host="http://firewall.lan:19999"
+           data-title="Load Average" data-chart-library="dygraph"
+           data-width="300px" data-height="180px"
+           data-after="-1200"></div>
+    </td>
+  </tr>
+<tr>
+  <td colspan="3" style="text-align:center;">
+    Disk:
+    <img src="http://firewall.lan:19999/api/v1/badge.svg?chart=disk_space.%2F&dimensions=used&units=GiB&label=Used" />
+    <img src="http://firewall.lan:19999/api/v1/badge.svg?chart=disk_space.%2F&dimensions=avail&units=GiB&label=Free" />
+  </td>
+</tr>
+
+
+  <!-- Tower -->
+  <tr style="border-top: solid #272b30 3px;">
+    <td>
+      <div data-netdata="system.cpu" data-host="http://tower.lan:19999"
+           data-title="Tower CPU" data-chart-library="gauge"
+           data-width="250px" data-after="-300"
+           data-gauge-max-value="100" data-colors="#0384fc"></div>
+    </td>
+    <td>
+      <div data-netdata="mem.available" data-host="http://tower.lan:19999"
+           data-title="Available RAM" data-chart-library="easypiechart"
+           data-units="MB" data-width="150px"
+           data-easypiechart-max-value="32000"
+           data-after="-480" data-points="480"
+           data-colors="#66AA00"></div>
+    </td>
+    <td>
+      <div data-netdata="system.net" data-dimensions="received"
+           data-host="http://tower.lan:19999"
+           data-title="Net RX" data-chart-library="easypiechart"
+           data-width="80px" data-after="-300"></div>
+      <br />
+      <div data-netdata="system.net" data-dimensions="sent"
+           data-host="http://tower.lan:19999"
+           data-title="Net TX" data-chart-library="easypiechart"
+           data-width="80px" data-after="-300"></div>
+    </td>
+    <td rowspan="2">
+      <div data-netdata="system.load" data-host="http://tower.lan:19999"
+           data-title="Load Average" data-chart-library="dygraph"
+           data-width="300px" data-height="180px"
+           data-after="-1200"></div>
+    </td>
+  </tr>
+<!-- Removed, couldn't get these to work b/c unraid uses FUSE mounts, which netdata doesn't display
+  <tr>
+    <td colspan="3">Free space:
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=disk_space.%2F&dimensions=avail&label=%5C" />
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=disk_space.%2Fmnt%2Fuser&dimensions=avail%2Cused&divide=avail%2Cused&multiply=100&label=Array%20Free%25" />
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=disk_space.%2Fmnt%2Fuser&dimensions=avail&label=Array%20Free%20Space" />
+    </td>
+  </tr>
+-->
+  <!-- Temps and UPS -->
+  <tr style="border-top: solid #272b30 3px;">
+    <td colspan="4">
+      Temps:
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=sensors.temperature_k10temp-pci-00c3_temp1_Tctl_input&label=CPU&units=C" />
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=sensors.temperature_nvme-pci-0400_temp1_Composite_input&label=NVMe1&units=C" />
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=sensors.temperature_nvme-pci-0700_temp1_Composite_input&label=NVMe2&units=C" />
+      | UPS:
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=apcupsd_local_3551.ups_battery_charge&label=Charge&units=%25" />
+      <img src="http://tower.lan:19999/api/v1/badge.svg?chart=apcupsd_local_3551.ups_load_capacity_utilization&label=Load&units=%25" />
+    </td>
+  </tr>
+</table>
+
+<br />
+<center><button onclick="window.location.reload();">Refresh Page</button></center>
+
+</body>
+</html>

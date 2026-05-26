@@ -113,7 +113,33 @@ Edit `config.env`:
 
 ## Netdata dashboards
 
-The dashboard HTML is served by Netdata (or your own server), not by this repo. MonitorPI only opens a URL in Chromium. To build a dashboard that fits a small screen, see the [Netdata documentation](https://learn.netdata.cloud/docs).
+The dashboard HTML is served by Netdata (or your own server), not by this repo. MonitorPI only opens a URL in Chromium.
+
+A sample custom dashboard for a **7" 800×600** screen lives in the repo as reference code:
+
+- [docs/netdata-dashboard-800x600.html](docs/netdata-dashboard-800x600.html) — copy into a Netdata web root, then point `KIOSK_URL` at that URL.
+
+**This setup (OPNsense + Unraid/tower):**
+
+| Role | Host | Web root | Notes |
+|------|------|----------|--------|
+| Serve kiosk HTML | `firewall.lan` (OPNsense) | `/usr/local/share/netdata/web/` | Plugin install; only `index.html`, `static/`, `v3/`, etc. — **no** `dashboard.js` |
+| Serve chart library | `tower.lan` | `/usr/share/netdata/web/` (typical) | Full agent install; has `dashboard.js` and `refresh-badges.js` |
+
+The sample HTML is hosted on the firewall (e.g. `taggart.html`) but loads `dashboard.js` from **tower**. Each chart still sets `data-host` to the agent that owns the metrics (`firewall.lan` or `tower.lan`).
+
+Example kiosk URL: `http://firewall.lan:19999/taggart.html`
+
+**Verify a host has the legacy chart library:**
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" http://tower.lan:19999/dashboard.js    # expect 200
+curl -s -o /dev/null -w "%{http_code}\n" http://firewall.lan:19999/dashboard.js # OPNsense: often 404
+```
+
+**Verify chart IDs** if a widget stays blank: `curl -s http://<host>:19999/api/v1/charts | jq 'keys[]'`
+
+For `data-netdata` options, see the [legacy custom dashboard docs](https://github.com/netdata/netdata/blob/v2.2.3/src/web/gui/custom/README.md) (v2.2.3 tag).
 
 ## Troubleshooting
 
